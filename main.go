@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
-
 	"github.com/joho/godotenv"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -17,5 +17,6 @@ func main() {
 	if portStr == "" {
 		log.Fatal("PORT not found")
 	}
-	fmt.Println("PORT: ", portStr)
+	
+	router := gin.New()
 }
