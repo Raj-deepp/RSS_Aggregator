@@ -29,6 +29,11 @@ func main() {
 		MaxAge:           300,
 	}))
 
+	v1R := router.Group("/v1")
+	{
+		v1R.GET("/health", handlerReadiness)
+	}
+
 	srv := &http.Server{
 		Handler: router,
 		Addr:    ":" + portStr,
