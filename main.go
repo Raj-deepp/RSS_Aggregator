@@ -29,9 +29,10 @@ func main() {
 		MaxAge:           300,
 	}))
 
-	v1R := router.Group("/v1")
+	vR := router.Group("/v1")
 	{
-		v1R.GET("/health", handlerReadiness)
+		vR.GET("/health", handlerReadiness)
+		vR.GET("/err", handlerErr)
 	}
 
 	srv := &http.Server{
