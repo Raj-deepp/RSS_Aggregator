@@ -55,6 +55,8 @@ func main() {
 	{
 		vR.GET("/health", handlerReadiness)
 		vR.GET("/err", handlerErr)
+
+		vR.POST("/users", apiCfg.handlerUsersCreate)
 	}
 
 	srv := &http.Server{
@@ -63,7 +65,7 @@ func main() {
 	}
 
 	log.Printf("Server starting on port %v", portStr)
-	err := srv.ListenAndServe()
+	err = srv.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
 	}
