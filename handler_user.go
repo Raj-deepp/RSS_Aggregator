@@ -36,4 +36,13 @@ func (cfg *apiConfig) handlerUsersCreate(ctx *gin.Context) {
 	respondWithJSON(ctx.Writer, http.StatusOK, databaseUserToUser(user))
 }
 
+func (cfg *apiConfig) handlerUsersGet(ctx *gin.Context) {
+	user, exists := ctx.Get("user")
+	if !exists {
+		respondWithError(ctx.Writer, http.StatusUnauthorized, "User not found in context")
+		return
+	}
 
+	dbUser := user.(database.User)
+	respondWithJSON(ctx.Writer, http.StatusOK, databaseUserToUser(dbUser))
+}

@@ -57,6 +57,7 @@ func main() {
 		vR.GET("/err", handlerErr)
 
 		vR.POST("/users", apiCfg.handlerUsersCreate)
+		vR.GET("/users", apiCfg.middlewareAuth(apiCfg.handlerUsersGet))
 	}
 
 	srv := &http.Server{
