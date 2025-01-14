@@ -1,14 +1,21 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/Raj-deepp/RSS_Aggregator/internal/database"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
+
+type apiConfig struct {
+	DB *database.Queries
+}
 
 func main() {
 	godotenv.Load()
@@ -17,6 +24,21 @@ func main() {
 	if portStr == "" {
 		portStr = "8080" // Default port
 		log.Println("PORT not found, using default port 8080")
+	}
+
+	db_URL := os.Getenv("DB_URL")
+	if db_URL == "" {
+		log.Fatal("DB_URL not found")
+	}
+
+	conn, err := sql.Open("postgres", db_URL)
+	if err != nil {
+		log.Fatal("Can't connect to database", err)
+	}
+
+	db := database.New(conn)
+	apiCfg := apiConfig{
+		DB: db,
 	}
 
 	router := gin.New()
